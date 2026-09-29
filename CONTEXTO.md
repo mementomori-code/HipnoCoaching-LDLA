@@ -30,3 +30,17 @@ Lo que esto implica para el trabajo de este espacio:
 - `setters/` — una ficha por setter (`setters/nombre.md`).
 - `setters/_PLANTILLA-SETTER.md` — plantilla base de cada ficha.
 - `equipo/lectura-de-equipo.md` — visión transversal del equipo.
+
+## Personas del entorno (mencionadas en las llamadas)
+- **Braian** — Líder de Setting. Conduce las entrevistas 1:1.
+- **Marco** — referencia operativa del equipo; valida las iniciativas de Braian.
+- **Vika** — da clases/formación; Kelly se descarga con ella cuando se satura.
+- **Brenda** — setter; citada por Kelly como el estándar correcto en el manejo de bandejas.
+- **Tobías** — setter; amigo de Yaris, se apoyan mutuamente.
+
+## Setters con ficha
+| Setter | Antigüedad | Riesgo de fuga | Ficha |
+|---|---|---|---|
+| Yaris | a confirmar | 🔴 Alto (1-2 meses) | [`setters/yaris.md`](setters/yaris.md) |
+| Rosario Sulla | reciente | 🟢 Bajo | [`setters/rosario.md`](setters/rosario.md) |
+| Kelly Chaverra | +1 año (la más experimentada) | 🟡 Bajo, pero sin aviso previo | [`setters/kelly.md`](setters/kelly.md) |
