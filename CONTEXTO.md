@@ -38,6 +38,26 @@ Lo que esto implica para el trabajo de este espacio:
 - **Brenda** — setter; citada por Kelly como el estándar correcto en el manejo de bandejas.
 - **Tobías** — setter; amigo de Yaris, se apoyan mutuamente.
 
+## Estado del relevamiento
+**Equipo de setting: 6 personas.** Ronda de entrevistas personales 1:1 conducida
+por Braian.
+
+- ✅ **Analizados (3/6):** Yaris, Rosario, Kelly — entrevistas del 29/09/2026.
+- ⏳ **Pendientes (3/6):** llegan el 30/09/2026.
+
+La lectura de equipo en `equipo/lectura-de-equipo.md` está calculada sobre 3
+personas y **debe recalcularse al completar las 6** — los patrones transversales
+recién se vuelven sólidos con el equipo entero.
+
+### Pendientes abiertos de la primera ronda
+Independientes de las llamadas que faltan:
+1. Sacar del CRM los números de los tres (conversaciones, agendas, show rate).
+   Sin esto no se puede confirmar ni descartar la queja de Yaris sobre calidad
+   de leads.
+2. Escalar a Marco / la empresa el esquema de compensación de Kelly.
+3. Publicar la regla de bandejas (estándar: la práctica de Brenda).
+4. Devolver respuesta a las propuestas de los tres.
+
 ## Setters con ficha
 | Setter | Antigüedad | Riesgo de fuga | Ficha |
 |---|---|---|---|
