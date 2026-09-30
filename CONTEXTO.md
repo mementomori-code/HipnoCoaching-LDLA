@@ -39,28 +39,36 @@ Lo que esto implica para el trabajo de este espacio:
 - **Tobías** — setter; amigo de Yaris, se apoyan mutuamente.
 
 ## Estado del relevamiento
-**Equipo de setting: 6 personas.** Ronda de entrevistas personales 1:1 conducida
-por Braian.
+**Equipo de setting bajo Braian: 5 personas** (Yumico queda fuera: setea para la
+socia de Vika, no reporta a esta estructura).
 
-- ✅ **Analizados (3/6):** Yaris, Rosario, Kelly — entrevistas del 29/09/2026.
-- ⏳ **Pendientes (3/6):** llegan el 30/09/2026.
+- ✅ **Entrevistados y analizados (3):** Yaris, Rosario, Kelly — llamadas del 29/09/2026.
+- ⏸️ **Diferidos por decisión de Braian (30/09/2026):**
+  - **Brenda** — está en el estado objetivo, sin fricción. *Nota: es el caso de
+    mayor valor pendiente, porque es el único modelo replicable que hay.*
+  - **Tobías** — menos de una semana. Sugerido entrevistarlo a los 30 días.
+- 🚫 **Fuera de alcance:** Yumico.
 
-La lectura de equipo en `equipo/lectura-de-equipo.md` está calculada sobre 3
-personas y **debe recalcularse al completar las 6** — los patrones transversales
-recién se vuelven sólidos con el equipo entero.
+La lectura de equipo en `equipo/lectura-de-equipo.md` está calculada sobre 3 de 5
+y **no va a cambiar hasta que entre Brenda**. Los patrones actuales describen lo
+que falla; falta el contraste con lo que funciona.
 
-### Pendientes abiertos de la primera ronda
-Independientes de las llamadas que faltan:
-1. Sacar del CRM los números de los tres (conversaciones, agendas, show rate).
-   Sin esto no se puede confirmar ni descartar la queja de Yaris sobre calidad
-   de leads.
+### Pendientes abiertos
+1. Sacar del CRM los números de los tres analizados (conversaciones, agendas,
+   show rate). Sin esto no se puede confirmar ni descartar la queja de Yaris
+   sobre calidad de leads.
 2. Escalar a Marco / la empresa el esquema de compensación de Kelly.
 3. Publicar la regla de bandejas (estándar: la práctica de Brenda).
 4. Devolver respuesta a las propuestas de los tres.
+5. Registrar los primeros 30 días de Tobías mientras ocurren — es el único test
+   en vivo de la debilidad de onboarding que señaló Kelly.
 
 ## Setters con ficha
-| Setter | Antigüedad | Riesgo de fuga | Ficha |
-|---|---|---|---|
-| Yaris | a confirmar | 🔴 Alto (1-2 meses) | [`setters/yaris.md`](setters/yaris.md) |
-| Rosario Sulla | reciente | 🟢 Bajo | [`setters/rosario.md`](setters/rosario.md) |
-| Kelly Chaverra | +1 año (la más experimentada) | 🟡 Bajo, pero sin aviso previo | [`setters/kelly.md`](setters/kelly.md) |
+| Setter | Antigüedad | Estado | Riesgo de fuga | Ficha |
+|---|---|---|---|---|
+| Yaris | a confirmar | ✅ analizado | 🔴 Alto (1-2 meses) | [`setters/yaris.md`](setters/yaris.md) |
+| Rosario Sulla | reciente | ✅ analizado | 🟢 Bajo | [`setters/rosario.md`](setters/rosario.md) |
+| Kelly Chaverra | +1 año (la más experimentada) | ✅ analizado | 🟡 Bajo, pero sin aviso previo | [`setters/kelly.md`](setters/kelly.md) |
+| Brenda | mucha experiencia | ⏸️ diferido — **estado objetivo del equipo** | 🟢 Bajo | [`setters/brenda.md`](setters/brenda.md) |
+| Tobías | < 1 semana | ⏸️ diferido | sin datos | [`setters/tobias.md`](setters/tobias.md) |
+| Yumico | — | 🚫 fuera de alcance (setea para la socia de Vika) | — | [`setters/yumico.md`](setters/yumico.md) |

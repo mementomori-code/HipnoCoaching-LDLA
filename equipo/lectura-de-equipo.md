@@ -1,7 +1,9 @@
 # Lectura de equipo — Setting LDLA
 
-> Última actualización: 2026-09-29 · Setters analizados: 3 (Yaris, Rosario, Kelly)
+> Última actualización: 2026-09-30 · Setters analizados: 3 de 5 (Yaris, Rosario, Kelly)
 > Base: tres entrevistas personales 1:1 conducidas por Braian el 29/09/2026.
+> Brenda y Tobías quedan diferidos por decisión de Braian; Yumico está fuera de
+> alcance. Ver `CONTEXTO.md`.
 
 ---
 
@@ -13,6 +15,12 @@ y sólo dio el 10 cuando Braian le garantizó que no habría represalias).
 
 Nada de lo que sigue reemplaza los números. Es la mitad del diagnóstico; la otra
 mitad está en el CRM y todavía no se miró.
+
+**Y falta el grupo de control.** Las tres personas analizadas son las tres que
+tienen algo sin resolver. Brenda — la única que ya está en el estado objetivo —
+quedó afuera. Eso sesga todo lo que sigue hacia el diagnóstico de lo que falla,
+sin contraste con lo que funciona. Los patrones son válidos, pero incompletos:
+describen la enfermedad, no la salud. Ver [`../setters/brenda.md`](../setters/brenda.md).
 
 ---
 
