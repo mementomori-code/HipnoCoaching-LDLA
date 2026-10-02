@@ -24,12 +24,16 @@ Lo que esto implica para el trabajo de este espacio:
 2. Por cada llamada se genera o actualiza la ficha del setter en `setters/`.
 3. Cada cierto número de llamadas se actualiza la lectura de equipo en
    `equipo/lectura-de-equipo.md` (patrones comunes, riesgos, palancas).
-4. Todo queda versionado para poder mirar la evolución en el tiempo.
+4. Las acciones que salen de cada llamada se cargan **por día** en el tablero de
+   tareas (`tareas/`, ver [`tareas/README.md`](tareas/README.md)), donde Braian
+   las marca a medida que las resuelve.
+5. Todo queda versionado para poder mirar la evolución en el tiempo.
 
 ## Estructura
 - `setters/` — una ficha por setter (`setters/nombre.md`).
 - `setters/_PLANTILLA-SETTER.md` — plantilla base de cada ficha.
 - `equipo/lectura-de-equipo.md` — visión transversal del equipo.
+- `tareas/` — tablero de tareas por día (HTML publicado + registro de lo cargado).
 
 ## Personas del entorno (mencionadas en las llamadas)
 - **Braian** — Líder de Setting. Conduce las entrevistas 1:1.

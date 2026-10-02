@@ -1,0 +1,316 @@
+<title>Tareas Setters LDLA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: una columna de trabajo; resumen arriba, luego un bloque por día de grabación, tareas como filas operables. */
+:root {
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --ink: #18212b;
+  --muted: #5b6875;
+  --line: #dde3e9;
+  --accent: #1f6b6e;
+  --accent-soft: #e1efef;
+  --hi: #b4372b;
+  --hi-soft: #f8e4e1;
+  --mid: #9a6a00;
+  --mid-soft: #f6ecd2;
+  --lo: #4f6273;
+  --lo-soft: #e7ecf1;
+  --ok: #2c7a4b;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11171d; --surface: #182029; --ink: #e6ecf1; --muted: #93a1ae; --line: #29343f;
+    --accent: #5fb3b3; --accent-soft: #1b3436; --hi: #f08a7e; --hi-soft: #3a2220;
+    --mid: #e0b555; --mid-soft: #352c17; --lo: #a6b5c3; --lo-soft: #222c36; --ok: #6cc391;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11171d; --surface: #182029; --ink: #e6ecf1; --muted: #93a1ae; --line: #29343f;
+  --accent: #5fb3b3; --accent-soft: #1b3436; --hi: #f08a7e; --hi-soft: #3a2220;
+  --mid: #e0b555; --mid-soft: #352c17; --lo: #a6b5c3; --lo-soft: #222c36; --ok: #6cc391;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: grid; gap: 22px; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.6rem, 4vw, 2.1rem); font-weight: 700; letter-spacing: -0.01em; }
+.sub { color: var(--muted); margin: 4px 0 0; max-width: 62ch; }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); font-weight: 600; }
+
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px; }
+.stat b { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stat.alert b { color: var(--hi); }
+.bar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+.bar i { display: block; height: 100%; background: var(--ok); width: 0; transition: width .3s; }
+
+.filters { display: grid; gap: 10px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip { font: inherit; font-size: 0.85rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 5px 11px; border-radius: 99px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip .risk { width: 8px; height: 8px; border-radius: 50%; }
+.chip:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.day { display: grid; gap: 10px; }
+.day-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; }
+.day-head h2 { font-size: 1.25rem; font-weight: 700; }
+.date { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); }
+.day-meta { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.day-note { color: var(--muted); font-size: 0.9rem; margin: 0; max-width: 70ch; }
+.sources { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.85rem; }
+.sources a { color: var(--accent); }
+
+.task { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--lo); border-radius: 8px; padding: 12px 14px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; }
+.task.p-alta { border-left-color: var(--hi); }
+.task.p-media { border-left-color: var(--mid); }
+.task.done { opacity: 0.62; border-left-color: var(--ok); }
+.task.done .t-title { text-decoration: line-through; }
+.check { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ok); cursor: pointer; }
+.t-body { min-width: 0; display: grid; gap: 6px; }
+.t-title { font-weight: 600; }
+.t-detail { color: var(--muted); font-size: 0.9rem; margin: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; background: var(--lo-soft); color: var(--lo); font-weight: 500; }
+.tag.setter { background: var(--accent-soft); color: var(--accent); }
+.tag.alta { background: var(--hi-soft); color: var(--hi); }
+.tag.media { background: var(--mid-soft); color: var(--mid); }
+.tag.hecha { background: transparent; color: var(--ok); padding-inline: 0; }
+details.notes summary { cursor: pointer; font-size: 0.82rem; color: var(--muted); }
+details.notes textarea { width: 100%; margin-top: 6px; min-height: 64px; font: inherit; font-size: 0.9rem; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); resize: vertical; }
+.saved { font-size: 0.75rem; color: var(--ok); }
+
+.add { background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; padding: 14px; }
+.add summary { cursor: pointer; font-weight: 600; }
+.add form { display: grid; gap: 10px; margin-top: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.add label { display: grid; gap: 4px; font-size: 0.8rem; color: var(--muted); }
+.add .wide { grid-column: 1 / -1; }
+.add input, .add select, .add textarea { font: inherit; font-size: 0.92rem; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); width: 100%; }
+.btn { font: inherit; font-weight: 600; background: var(--accent); color: var(--surface); border: 0; padding: 9px 16px; border-radius: 6px; cursor: pointer; justify-self: start; }
+.empty { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px; color: var(--muted); }
+.status { font-size: 0.85rem; color: var(--muted); }
+.status.err { color: var(--hi); }
+
+@media (max-width: 560px) {
+  .summary { grid-template-columns: 1fr 1fr; }
+  .summary .stat:last-child { grid-column: 1 / -1; }
+  .add form { grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Setting LDLA · Líder: Braian</div>
+    <h1>Tareas de liderazgo por setter</h1>
+    <p class="sub">Cada grabación que entra se convierte en tareas, agrupadas por el día de la llamada. Marcá lo que vas resolviendo y dejá una nota de cómo quedó.</p>
+  </header>
+
+  <section class="summary" aria-label="Resumen">
+    <div class="stat"><span class="eyebrow">Pendientes</span><b id="s-pend">–</b></div>
+    <div class="stat alert"><span class="eyebrow">Prioridad alta abiertas</span><b id="s-alta">–</b></div>
+    <div class="stat"><span class="eyebrow">Avance total</span><b id="s-pct">–</b><div class="bar"><i id="s-bar"></i></div></div>
+  </section>
+
+  <section class="filters" aria-label="Filtros">
+    <div class="row" id="f-setter" role="group" aria-label="Setter"></div>
+    <div class="row" id="f-estado" role="group" aria-label="Estado"></div>
+  </section>
+
+  <p class="status" id="status">Conectando con el registro de tareas…</p>
+  <main id="list" style="display:grid;gap:30px"></main>
+
+  <details class="add" id="add-box">
+    <summary>Agregar una tarea a mano</summary>
+    <form id="add-form">
+      <label>Día<input type="date" id="a-fecha" required></label>
+      <label>Setter<select id="a-setter"></select></label>
+      <label>Prioridad<select id="a-prio"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></label>
+      <label>Plazo<select id="a-plazo"><option>Esta semana</option><option>Este mes</option><option>Este trimestre</option><option>Próximo 1:1</option></select></label>
+      <label class="wide">Tarea<input id="a-titulo" required maxlength="200" placeholder="Qué hay que hacer"></label>
+      <label class="wide">Detalle (opcional)<textarea id="a-detalle" rows="2" maxlength="1000"></textarea></label>
+      <button class="btn" type="submit">Agregar tarea</button>
+    </form>
+  </details>
+</div>
+
+<script>
+const SETTERS = [
+  { id: "Equipo", risk: null },
+  { id: "Yaris", risk: "var(--hi)", label: "riesgo alto" },
+  { id: "Kelly", risk: "var(--mid)", label: "riesgo sin aviso" },
+  { id: "Rosario", risk: "var(--ok)", label: "riesgo bajo" },
+  { id: "Brenda", risk: "var(--ok)", label: "estado objetivo" },
+  { id: "Tobías", risk: "var(--lo)", label: "sin datos" },
+];
+const PRIO = { alta: 0, media: 1, baja: 2 };
+const ESTADOS = [["pend", "Pendientes"], ["todas", "Todas"], ["hechas", "Hechas"]];
+const state = { tareas: [], dias: {}, setter: "Todos", estado: "pend" };
+try { state.estado = localStorage.getItem("ldla-estado") || "pend"; state.setter = localStorage.getItem("ldla-setter") || "Todos"; } catch (e) {}
+let db = null, canWrite = true;
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+const fmtFecha = (iso) => {
+  const d = new Date(iso + "T12:00:00");
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
+};
+const hoy = () => { const d = new Date(); return new Date(d - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+
+function renderFilters() {
+  const fs = $("f-setter"); fs.replaceChildren();
+  ["Todos", ...SETTERS.map(s => s.id)].forEach(id => {
+    const s = SETTERS.find(x => x.id === id);
+    const b = el("button", "chip"); b.type = "button";
+    b.setAttribute("aria-pressed", state.setter === id);
+    if (s && s.risk) { const dot = el("span", "risk"); dot.style.background = s.risk; dot.title = s.label; b.append(dot); }
+    const open = state.tareas.filter(t => !t.done && (id === "Todos" || t.setter === id)).length;
+    b.append(document.createTextNode(id + (open ? " · " + open : "")));
+    b.onclick = () => { state.setter = id; try { localStorage.setItem("ldla-setter", id); } catch (e) {} render(); };
+    fs.append(b);
+  });
+  const fe = $("f-estado"); fe.replaceChildren();
+  ESTADOS.forEach(([id, label]) => {
+    const b = el("button", "chip", label); b.type = "button";
+    b.setAttribute("aria-pressed", state.estado === id);
+    b.onclick = () => { state.estado = id; try { localStorage.setItem("ldla-estado", id); } catch (e) {} render(); };
+    fe.append(b);
+  });
+}
+
+function renderSummary() {
+  const all = state.tareas, done = all.filter(t => t.done).length;
+  $("s-pend").textContent = all.length - done;
+  $("s-alta").textContent = all.filter(t => !t.done && t.prioridad === "alta").length;
+  const pct = all.length ? Math.round(done / all.length * 100) : 0;
+  $("s-pct").textContent = all.length ? pct + "%" : "–";
+  $("s-bar").style.width = pct + "%";
+}
+
+function taskRow(t) {
+  const row = el("article", "task p-" + (t.prioridad || "baja") + (t.done ? " done" : ""));
+  const cb = el("input", "check"); cb.type = "checkbox"; cb.checked = !!t.done; cb.id = "c-" + t.id;
+  cb.setAttribute("aria-label", "Marcar como hecha: " + t.titulo);
+  cb.disabled = !canWrite;
+  cb.onchange = async () => {
+    try { await db.collection("tareas").doc(t.id).update({ done: cb.checked, doneAt: cb.checked ? new Date().toISOString() : null }); }
+    catch (e) { cb.checked = !cb.checked; showError(e); }
+  };
+  const body = el("div", "t-body");
+  const title = el("label", "t-title", t.titulo); title.htmlFor = cb.id;
+  body.append(title);
+  if (t.detalle) body.append(el("p", "t-detail", t.detalle));
+  const tags = el("div", "tags");
+  tags.append(el("span", "tag setter", t.setter));
+  tags.append(el("span", "tag " + t.prioridad, "Prioridad " + t.prioridad));
+  if (t.plazo) tags.append(el("span", "tag", t.plazo));
+  if (t.done && t.doneAt) tags.append(el("span", "tag hecha", "✓ hecha el " + new Date(t.doneAt).toLocaleDateString("es-AR", { day: "numeric", month: "short" })));
+  body.append(tags);
+
+  const det = el("details", "notes");
+  const sum = el("summary", null, t.nota ? "Nota de ejecución ✎" : "Agregar nota de ejecución");
+  const ta = el("textarea"); ta.id = "n-" + t.id; ta.value = t.nota || ""; ta.placeholder = "Qué se hizo, qué respondió, qué falta…"; ta.disabled = !canWrite;
+  const saved = el("span", "saved");
+  ta.onblur = async () => {
+    if (ta.value === (t.nota || "")) return;
+    try { await db.collection("tareas").doc(t.id).update({ nota: ta.value }); saved.textContent = "Guardada"; }
+    catch (e) { showError(e); }
+  };
+  det.append(sum, ta, saved);
+  if (t.nota) det.open = false;
+  body.append(det);
+  row.append(cb, body);
+  return row;
+}
+
+function render() {
+  renderFilters(); renderSummary();
+  const list = $("list"); list.replaceChildren();
+  const visible = state.tareas.filter(t =>
+    (state.setter === "Todos" || t.setter === state.setter) &&
+    (state.estado === "todas" || (state.estado === "pend" ? !t.done : t.done)));
+  if (!state.tareas.length) {
+    const e = el("div", "empty");
+    e.append(el("strong", null, "Todavía no hay tareas cargadas. "), document.createTextNode("Cuando mandes una grabación, Claude carga acá las tareas de ese día. También podés agregar una a mano abajo."));
+    list.append(e); return;
+  }
+  if (!visible.length) { list.append(el("div", "empty", state.estado === "pend" ? "Nada pendiente con este filtro. Bien ahí." : "No hay tareas con este filtro.")); return; }
+  const byDay = {};
+  visible.forEach(t => (byDay[t.fecha] ||= []).push(t));
+  Object.keys(byDay).sort().reverse().forEach(fecha => {
+    const tasks = byDay[fecha].sort((a, b) => (a.done - b.done) || (PRIO[a.prioridad] - PRIO[b.prioridad]) || ((a.orden || 0) - (b.orden || 0)));
+    const dayAll = state.tareas.filter(t => t.fecha === fecha);
+    const info = state.dias[fecha] || {};
+    const sec = el("section", "day");
+    const head = el("div", "day-head");
+    const left = el("div");
+    left.append(el("div", "date", fmtFecha(fecha)));
+    left.append(el("h2", null, info.titulo || "Tareas del día"));
+    head.append(left, el("span", "day-meta", dayAll.filter(t => t.done).length + " de " + dayAll.length + " hechas"));
+    sec.append(head);
+    if (info.resumen) sec.append(el("p", "day-note", info.resumen));
+    if (Array.isArray(info.grabaciones) && info.grabaciones.length) {
+      const src = el("div", "sources");
+      info.grabaciones.forEach(g => {
+        if (g.url && /^https:\/\//.test(g.url)) { const a = el("a", null, "▶ " + g.nombre); a.href = g.url; a.target = "_blank"; a.rel = "noopener"; src.append(a); }
+        else src.append(el("span", null, g.nombre));
+      });
+      sec.append(src);
+    }
+    tasks.forEach(t => sec.append(taskRow(t)));
+    list.append(sec);
+  });
+}
+
+function showError(e) {
+  const s = $("status"); s.hidden = false; s.className = "status err";
+  s.textContent = e && e.code === "invalid_argument" ? "No tenés permiso para editar este tablero: lo ves en modo lectura." : "No se pudo guardar el cambio. Revisá la conexión y probá de nuevo.";
+  if (e && e.code === "invalid_argument") { canWrite = false; render(); }
+}
+
+function setupForm() {
+  const sel = $("a-setter");
+  SETTERS.forEach(s => sel.append(new Option(s.id, s.id)));
+  $("a-fecha").value = hoy();
+  $("add-form").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    if (!db) return;
+    const data = {
+      fecha: $("a-fecha").value, setter: sel.value, prioridad: $("a-prio").value, plazo: $("a-plazo").value,
+      titulo: $("a-titulo").value.trim(), detalle: $("a-detalle").value.trim(), done: false, nota: "", orden: 999, origen: "manual",
+    };
+    if (!data.titulo) return;
+    try { await db.collection("tareas").add(data); $("a-titulo").value = ""; $("a-detalle").value = ""; }
+    catch (e) { showError(e); }
+  });
+}
+
+async function start() {
+  setupForm(); render();
+  db = await window.claude?.use?.("db");
+  const status = $("status");
+  if (!db) { status.textContent = "El registro de tareas no está disponible en esta vista. Abrí la página desde claude.ai con tu cuenta."; status.className = "status err"; $("add-box").hidden = true; return; }
+  const user = await window.claude.use("user");
+  const can = user ? await user.can("data.write") : null;
+  if (can === false) { canWrite = false; $("add-box").hidden = true; }
+  let loaded = 0;
+  const ready = () => { if (++loaded >= 2) status.hidden = true; };
+  db.collection("tareas").onSnapshot(snap => {
+    state.tareas = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(t => t.titulo && t.fecha);
+    ready(); render();
+  }, showError);
+  db.collection("dias").onSnapshot(snap => {
+    state.dias = {}; snap.docs.forEach(d => { const v = d.data(); state.dias[v.fecha || d.id] = v; });
+    ready(); render();
+  }, showError);
+}
+start();
+</script>
