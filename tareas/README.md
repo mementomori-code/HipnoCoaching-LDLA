@@ -21,3 +21,4 @@ Fuente de la página: [`tablero.html`](tablero.html).
 |---|---|---|
 | 2026-09-29 | Entrevistas 1:1 Yaris, Rosario, Kelly | 21 |
 | 2026-09-30 | Definición de alcance (Brenda, Tobías) | 3 |
+| 2026-10-05 | Daily del equipo ([nota](../equipo/dailies/2026-10-05.md)) | 11 (Equipo) |
