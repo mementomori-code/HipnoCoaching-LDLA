@@ -37,22 +37,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .filters button:hover { color: var(--ink); }
 
 .day { display: grid; }
-.day-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--ink); }
-.day-head h2 { font-size: 0.95rem; font-weight: 500; margin: 0; text-wrap: balance; }
-.date { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); display: block; margin-bottom: 2px; }
-.day-meta { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.day-note { color: var(--muted); font-size: 0.85rem; margin: 10px 0 0; }
-.sources { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.8rem; margin-top: 6px; }
-.sources a { color: var(--muted); text-underline-offset: 3px; }
-.sources a:hover { color: var(--ink); }
+.date { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 6px; display: flex; justify-content: space-between; gap: 12px; }
 
-.task { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 14px; padding-block: 16px; border-bottom: 1px solid var(--line); }
+.task { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 14px; padding-block: 12px; border-top: 1px solid var(--line); }
 .check { appearance: none; width: 16px; height: 16px; margin: 3px 0 0; border: 1px solid var(--muted); border-radius: 50%; cursor: pointer; display: grid; place-content: center; }
 .check:checked { background: var(--ink); border-color: var(--ink); }
 .check:checked::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--bg); }
 .check:disabled { cursor: default; }
 .t-body { min-width: 0; display: grid; gap: 4px; }
-.t-title { cursor: pointer; }
+.t-title { cursor: pointer; text-align: left; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%; }
+.t-title .who { color: var(--muted); font-size: 0.78rem; white-space: nowrap; }
+.t-more { display: grid; gap: 6px; padding-top: 4px; }
 .t-title .dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--hi); margin-left: 8px; vertical-align: middle; }
 .t-detail { color: var(--muted); font-size: 0.85rem; margin: 0; }
 .meta { color: var(--muted); font-size: 0.78rem; display: flex; flex-wrap: wrap; gap: 0 14px; }
@@ -63,18 +58,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .note:focus { outline: none; border-bottom-color: var(--ink); }
 .note-text { font-size: 0.85rem; margin: 2px 0 0; white-space: pre-wrap; }
 
-.add > button { color: var(--muted); font-size: 0.875rem; }
-.add > button:hover { color: var(--ink); }
-.add form { display: grid; gap: 14px; margin-top: 18px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.add label { display: grid; gap: 2px; font-size: 0.75rem; color: var(--muted); }
-.add .wide { grid-column: 1 / -1; }
+.add { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.add #a-titulo { flex: 1 1 260px; min-width: 0; }
+.add select { width: auto; color: var(--muted); }
 .add input, .add select, .add textarea { font: inherit; font-size: 0.9rem; padding: 6px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); width: 100%; border-radius: 0; }
 .add input:focus, .add select:focus, .add textarea:focus { outline: none; border-bottom-color: var(--ink); }
-.add .submit { justify-self: start; font-size: 0.875rem; border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+.add .submit { font-size: 0.875rem; color: var(--muted); }
+.add .submit:hover { color: var(--ink); }
 
 .empty, .status { color: var(--muted); font-size: 0.875rem; margin: 0; }
 .status.err { color: var(--hi); }
-@media (max-width: 520px) { .add form { grid-template-columns: 1fr 1fr; } .wrap { padding-block: 36px 72px; } }
+@media (max-width: 520px) { .wrap { padding-block: 36px 72px; } }
 @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
 </style>
 
@@ -90,28 +84,23 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     <div class="row" id="f-estado" role="group" aria-label="Estado"></div>
   </nav>
 
-  <p class="status" id="status">Cargando…</p>
-  <main id="list" style="display:grid;gap:48px"></main>
+  <form class="add" id="add-box">
+    <input id="a-titulo" required maxlength="200" placeholder="Nueva tarea" aria-label="Nueva tarea" autocomplete="off">
+    <select id="a-setter" aria-label="Setter"></select>
+    <select id="a-prio" aria-label="Prioridad"><option value="alta">alta</option><option value="media" selected>media</option><option value="baja">baja</option></select>
+    <button class="submit" type="submit">Agregar</button>
+  </form>
 
-  <section class="add" id="add-box">
-    <button type="button" id="add-toggle" aria-expanded="false">+ Agregar tarea</button>
-    <form id="add-form" hidden>
-      <label>Día<input type="date" id="a-fecha" required></label>
-      <label>Setter<select id="a-setter"></select></label>
-      <label>Prioridad<select id="a-prio"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></label>
-      <label>Plazo<select id="a-plazo"><option>Esta semana</option><option>Este mes</option><option>Este trimestre</option><option>Próximo 1:1</option></select></label>
-      <label class="wide">Tarea<input id="a-titulo" required maxlength="200"></label>
-      <label class="wide">Detalle<textarea id="a-detalle" rows="1" maxlength="1000"></textarea></label>
-      <button class="submit" type="submit">Agregar</button>
-    </form>
-  </section>
+  <p class="status" id="status">Cargando…</p>
+  <main id="list" style="display:grid;gap:36px"></main>
+
 </div>
 
 <script>
 const SETTERS = ["Equipo", "Yaris", "Kelly", "Rosario", "Brenda", "Tobías"];
 const PRIO = { alta: 0, media: 1, baja: 2 };
 const ESTADOS = [["pend", "Pendientes"], ["todas", "Todas"], ["hechas", "Hechas"]];
-const state = { tareas: [], dias: {}, setter: "Todos", estado: "pend", editing: null };
+const state = { tareas: [], dias: {}, setter: "Todos", estado: "pend", editing: null, open: null };
 try { state.estado = localStorage.getItem("ldla-estado") || "pend"; state.setter = localStorage.getItem("ldla-setter") || "Todos"; } catch (e) {}
 let db = null, canWrite = true;
 
@@ -129,7 +118,7 @@ function renderFilters() {
     const open = state.tareas.filter(t => !t.done && (id === "Todos" || t.setter === id)).length;
     const b = el("button", null, id + (open ? " " + open : "")); b.type = "button";
     b.setAttribute("aria-pressed", state.setter === id);
-    b.onclick = () => { state.setter = id; try { localStorage.setItem("ldla-setter", id); } catch (e) {} render(); };
+    b.onclick = () => { state.setter = id; if (id !== "Todos") $("a-setter").value = id; try { localStorage.setItem("ldla-setter", id); } catch (e) {} render(); };
     fs.append(b);
   });
   const fe = $("f-estado"); fe.replaceChildren();
@@ -159,30 +148,40 @@ async function save(id, data) {
 function taskRow(t) {
   const row = el("article", "task" + (t.done ? " done" : ""));
   const cb = el("input", "check"); cb.type = "checkbox"; cb.checked = !!t.done; cb.id = "c-" + t.id;
+  cb.setAttribute("aria-label", "Marcar como hecha: " + t.titulo);
   cb.disabled = !canWrite;
   cb.onchange = async () => { if (!(await save(t.id, { done: cb.checked, doneAt: cb.checked ? new Date().toISOString() : null }))) cb.checked = !cb.checked; };
   const body = el("div", "t-body");
-  const title = el("label", "t-title", t.titulo); title.htmlFor = cb.id;
-  if (t.prioridad === "alta" && !t.done) { const d = el("span", "dot"); d.title = "Prioridad alta"; d.setAttribute("aria-label", "prioridad alta"); title.append(d); }
+  const open = state.open === t.id;
+  const title = el("button", "t-title"); title.type = "button"; title.setAttribute("aria-expanded", open);
+  const txt = el("span", null, t.titulo);
+  if (t.prioridad === "alta" && !t.done) { const d = el("span", "dot"); d.title = "Prioridad alta"; txt.append(d); }
+  title.append(txt);
+  if (state.setter === "Todos") title.append(el("span", "who", t.setter));
+  title.onclick = () => { state.open = open ? null : t.id; state.editing = null; render(); };
   body.append(title);
-  if (t.detalle) body.append(el("p", "t-detail", t.detalle));
 
-  const meta = el("div", "meta");
-  meta.append(el("span", null, t.setter));
-  if (t.plazo) meta.append(el("span", null, t.plazo));
-  if (t.done && t.doneAt) meta.append(el("span", null, "hecha " + new Date(t.doneAt).toLocaleDateString("es-AR", { day: "numeric", month: "short" })));
-  if (canWrite) {
-    const nb = el("button", null, t.nota ? "editar nota" : "nota"); nb.type = "button";
-    nb.onclick = () => { state.editing = state.editing === t.id ? null : t.id; render(); const n = $("n-" + t.id); if (n) n.focus(); };
-    meta.append(nb);
+  if (open) {
+    const more = el("div", "t-more");
+    if (t.detalle) more.append(el("p", "t-detail", t.detalle));
+    const meta = el("div", "meta");
+    if (t.plazo) meta.append(el("span", null, t.plazo));
+    if (t.done && t.doneAt) meta.append(el("span", null, "hecha " + new Date(t.doneAt).toLocaleDateString("es-AR", { day: "numeric", month: "short" })));
+    if (canWrite) {
+      const nb = el("button", null, t.nota ? "editar nota" : "nota"); nb.type = "button";
+      nb.onclick = () => { state.editing = state.editing === t.id ? null : t.id; render(); const n = $("n-" + t.id); if (n) n.focus(); };
+      meta.append(nb);
+    }
+    more.append(meta);
+    if (state.editing === t.id) {
+      const ta = el("textarea", "note"); ta.id = "n-" + t.id; ta.value = t.nota || ""; ta.placeholder = "Qué se hizo, qué respondió, qué falta";
+      ta.onblur = async () => { if (ta.value !== (t.nota || "")) await save(t.id, { nota: ta.value }); state.editing = null; render(); };
+      more.append(ta);
+    } else if (t.nota) more.append(el("p", "note-text", t.nota));
+    body.append(more);
+  } else if (t.nota) {
+    body.append(el("p", "note-text", t.nota));
   }
-  body.append(meta);
-
-  if (state.editing === t.id) {
-    const ta = el("textarea", "note"); ta.id = "n-" + t.id; ta.value = t.nota || ""; ta.placeholder = "Qué se hizo, qué respondió, qué falta";
-    ta.onblur = async () => { if (ta.value !== (t.nota || "")) await save(t.id, { nota: ta.value }); state.editing = null; render(); };
-    body.append(ta);
-  } else if (t.nota) body.append(el("p", "note-text", t.nota));
   row.append(cb, body);
   return row;
 }
@@ -200,22 +199,10 @@ function render() {
   Object.keys(byDay).sort().reverse().forEach(fecha => {
     const tasks = byDay[fecha].sort((a, b) => (a.done - b.done) || (PRIO[a.prioridad] - PRIO[b.prioridad]) || ((a.orden || 0) - (b.orden || 0)));
     const dayAll = state.tareas.filter(t => t.fecha === fecha);
-    const info = state.dias[fecha] || {};
     const sec = el("section", "day");
-    const head = el("div", "day-head");
-    const left = el("div");
-    left.append(el("span", "date", fmtFecha(fecha)), el("h2", null, info.titulo || "Tareas del día"));
-    head.append(left, el("span", "day-meta", dayAll.filter(t => t.done).length + "/" + dayAll.length));
+    const head = el("div", "date");
+    head.append(el("span", null, fmtFecha(fecha)), el("span", null, dayAll.filter(t => t.done).length + "/" + dayAll.length));
     sec.append(head);
-    if (info.resumen) sec.append(el("p", "day-note", info.resumen));
-    if (Array.isArray(info.grabaciones) && info.grabaciones.length) {
-      const src = el("div", "sources");
-      info.grabaciones.forEach(g => {
-        if (g.url && /^https:\/\//.test(g.url)) { const a = el("a", null, g.nombre + " ↗"); a.href = g.url; a.target = "_blank"; a.rel = "noopener"; src.append(a); }
-        else src.append(el("span", null, g.nombre));
-      });
-      sec.append(src);
-    }
     tasks.forEach(t => sec.append(taskRow(t)));
     list.append(sec);
   });
@@ -230,17 +217,15 @@ function showError(e) {
 function setupForm() {
   const sel = $("a-setter");
   SETTERS.forEach(s => sel.append(new Option(s, s)));
-  $("a-fecha").value = hoy();
-  $("add-toggle").onclick = () => { const f = $("add-form"); f.hidden = !f.hidden; $("add-toggle").setAttribute("aria-expanded", !f.hidden); if (!f.hidden) $("a-titulo").focus(); };
-  $("add-form").addEventListener("submit", async (ev) => {
+  $("add-box").addEventListener("submit", async (ev) => {
     ev.preventDefault();
     if (!db) return;
     const data = {
-      fecha: $("a-fecha").value, setter: sel.value, prioridad: $("a-prio").value, plazo: $("a-plazo").value,
-      titulo: $("a-titulo").value.trim(), detalle: $("a-detalle").value.trim(), done: false, nota: "", orden: 999, origen: "manual",
+      fecha: hoy(), setter: sel.value, prioridad: $("a-prio").value, plazo: "",
+      titulo: $("a-titulo").value.trim(), detalle: "", done: false, nota: "", orden: 999, origen: "manual",
     };
     if (!data.titulo) return;
-    try { await db.collection("tareas").add(data); $("a-titulo").value = ""; $("a-detalle").value = ""; }
+    try { await db.collection("tareas").add(data); $("a-titulo").value = ""; $("a-titulo").focus(); }
     catch (e) { showError(e); }
   });
 }
