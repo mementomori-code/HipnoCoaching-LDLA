@@ -13,7 +13,7 @@ Fuente de la página: [`tablero.html`](tablero.html).
 ## Modelo de datos (base del tablero)
 - `dias/<AAAA-MM-DD>` — `fecha`, `titulo`, `resumen`, `grabaciones[] {nombre, url}`.
 - `tareas/d<AAAAMMDD>-<nn>` — `fecha`, `setter` (Equipo, Yaris, Kelly, Rosario,
-  Brenda, Tobías), `titulo`, `detalle`, `prioridad` (alta/media/baja), `plazo`,
+  Brenda, Tobías, Marcela), `titulo`, `detalle`, `prioridad` (alta/media/baja), `plazo`,
   `orden`, `done`, `doneAt`, `nota`.
 
 ## Cargado hasta ahora
@@ -22,3 +22,4 @@ Fuente de la página: [`tablero.html`](tablero.html).
 | 2026-09-29 | Entrevistas 1:1 Yaris, Rosario, Kelly | 21 |
 | 2026-09-30 | Definición de alcance (Brenda, Tobías) | 3 |
 | 2026-10-05 | Daily del equipo ([nota](../equipo/dailies/2026-10-05.md)) | 11 (Equipo) |
+| 2026-10-05 | Roleplay de inducción de Marcela ([ficha](../setters/marcela.md)) | 6 (Marcela) |

@@ -75,4 +75,5 @@ que falla; falta el contraste con lo que funciona.
 | Kelly Chaverra | +1 año (la más experimentada) | ✅ analizado | 🟡 Bajo, pero sin aviso previo | [`setters/kelly.md`](setters/kelly.md) |
 | Brenda | mucha experiencia | ⏸️ diferido — **estado objetivo del equipo** | 🟢 Bajo | [`setters/brenda.md`](setters/brenda.md) |
 | Tobías | < 1 semana | ⏸️ diferido | sin datos | [`setters/tobias.md`](setters/tobias.md) |
+| Marcela García | en inducción (oct-2026) | 🟡 roleplay hecho, falta el segundo | sin datos | [`setters/marcela.md`](setters/marcela.md) |
 | Yumico | — | 🚫 fuera de alcance (setea para la socia de Vika) | — | [`setters/yumico.md`](setters/yumico.md) |
